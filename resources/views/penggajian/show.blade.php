@@ -244,37 +244,6 @@
                     @endif
                 </div>
 
-                @if (!empty($conditionalAllowances))
-                    <div class="detail-card">
-                        <h5 class="fw-bold mb-3">
-                            <i class="fas fa-gift me-2"></i>Tunjangan Kondisional
-                            <small class="text-muted">(Otomatis Dihitung)</small>
-                        </h5>
-
-                        @isset($conditionalAllowances['spouse'])
-                            <div class="conditional-allowance">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h6 class="mb-1">
-                                            <i class="fas fa-heart me-2 text-danger"></i>
-                                            {{ $conditionalAllowances['spouse']['name'] }}
-                                        </h6>
-                                        <small class="text-muted">
-                                            <i class="fas fa-check-circle text-success me-1"></i>
-                                            Memenuhi syarat karena status pernikahan: <strong>{{ $anggota->status_pernikahan }}</strong>
-                                        </small>
-                                    </div>
-                                    <div class="text-end">
-                                        <div class="h5 mb-0 text-success">{{ $conditionalAllowances['spouse']['formatted'] }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endisset
-
-
-                    </div>
-                @endif
-
                 <div class="d-flex gap-2 justify-content-center mt-3">
                     <a href="{{ route('penggajian.index') }}" class="btn btn-outline-secondary btn-sm">
                         <i class="fas fa-list me-1"></i>Daftar Penggajian

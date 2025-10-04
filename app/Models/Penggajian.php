@@ -91,36 +91,8 @@ class Penggajian extends Model
             $totalPay += $satuanTotal;
         }
 
-        // Add conditional allowances
-        $totalPay += self::calculateConditionalAllowances($anggota);
 
         return $totalPay;
-    }
-
-    /**
-     * Calculate conditional allowances (Tunjangan Istri/Suami only)
-     */
-    private static function calculateConditionalAllowances($anggota)
-    {
-        $additionalPay = 0;
-
-        // Check for spouse allowance
-        if ($anggota->status_pernikahan === 'Kawin') {
-            // Look for "Tunjangan Istri/Suami" component
-            $spouseAllowance = KomponenGaji::where('nama_komponen', 'like', '%Istri/Suami%')
-                                          ->where(function($query) use ($anggota) {
-                                              $query->where('jabatan', $anggota->jabatan)
-                                                    ->orWhere('jabatan', 'Semua');
-                                          })
-                                          ->first();
-            if ($spouseAllowance) {
-                $additionalPay += $spouseAllowance->nominal;
-            }
-        }
-
-
-
-        return $additionalPay;
     }
 
     /**
