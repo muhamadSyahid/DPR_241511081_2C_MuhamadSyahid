@@ -67,6 +67,6 @@ class Anggota extends Model
 
     public function penggajian()
     {
-        return $this->hasMany(Penggajian::class, 'id_komponen_gaji', 'id_komponen_gaji');
+        return $this->hasMany(Penggajian::class, 'id_anggota', 'id_anggota');
     }
 }
