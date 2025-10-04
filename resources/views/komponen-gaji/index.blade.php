@@ -92,7 +92,13 @@
         .pagination .page-link i {
             font-size: 0.7rem;
         }
-    <            <div class="header-section">
+            </style>
+</head>
+<body>
+    
+<div class="container mt-4">
+    <div class="main-container">
+        <div class="header-section">
                 <div class="text-center mb-3">
                     <i class="fas fa-money-bill-wave fa-2x mb-2"></i>
                     <h1 class="h2 fw-bold mb-0">Komponen Gaji</h1>
@@ -113,11 +119,6 @@
                     <div class="col-md-4">
                         <a href="{{ route('penggajian.index') }}" class="btn btn-outline-light btn-sm w-100">
                             <i class="fas fa-calculator me-2"></i>Penggajian
-                        </a>
-                    </div>
-                </div>
-p>
-="fas fa-calculator me-2"></i>Penggajian
                         </a>
                     </div>
                 </div>
