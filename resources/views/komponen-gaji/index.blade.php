@@ -98,10 +98,30 @@
 <body>
     <div class="container mt-4">
         <div class="main-container">
-            <div class="header-section text-center">
-                <i class="fas fa-money-bill-wave fa-2x mb-2"></i>
-                <h1 class="h2 fw-bold mb-0">Komponen Gaji</h1>
-                <p class="mb-0 opacity-75 small">Sistem Manajemen Data Komponen Gaji DPR</p>
+            <div class="header-section">
+                <div class="text-center mb-3">
+                    <i class="fas fa-money-bill-wave fa-2x mb-2"></i>
+                    <h1 class="h2 fw-bold mb-0">Komponen Gaji</h1>
+                    <p class="mb-0 opacity-75 small">Sistem Manajemen Data Komponen Gaji DPR</p>
+                </div>
+                
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <a href="{{ route('anggota.index') }}" class="btn btn-outline-light btn-sm w-100">
+                            <i class="fas fa-users me-2"></i>Data Anggota
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ route('komponen-gaji.index') }}" class="btn btn-light btn-sm w-100 active">
+                            <i class="fas fa-money-bill-wave me-2"></i>Komponen Gaji
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ route('penggajian.index') }}" class="btn btn-outline-light btn-sm w-100">
+                            <i class="fas fa-calculator me-2"></i>Penggajian
+                        </a>
+                    </div>
+                </div>
             </div>
 
             <div class="p-3">

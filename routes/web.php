@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KomponenGajiController;
+use App\Http\Controllers\PenggajianController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -19,8 +20,18 @@ Route::middleware(['web'])->group(function () {
     Route::resource('anggota', AnggotaController::class)->parameters([
         'anggota' => 'anggota',
     ]);
-
-    Route::resource('komponen-gaji', KomponenGajiController::class)->parameters([
-        'komponen-gaji' => 'komponen_gaji',
-    ]);
+    Route::resource('penggajian', PenggajianController::class)->parameters([
+        'penggajian' => 'anggota',
+    ])->except(['destroy']);
+    
+    Route::middleware(['check.admin'])->group(function () {
+        Route::resource('komponen-gaji', KomponenGajiController::class)->parameters([
+            'komponen-gaji' => 'komponen_gaji',
+        ]);
+        
+        Route::delete('penggajian/{anggota}/component/{komponen_gaji}', [PenggajianController::class, 'destroy'])
+            ->name('penggajian.destroy');
+        Route::delete('penggajian/{anggota}/all', [PenggajianController::class, 'destroyAll'])
+            ->name('penggajian.destroy-all');
+    });
 });

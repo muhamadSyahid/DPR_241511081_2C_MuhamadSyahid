@@ -10,7 +10,7 @@ class KomponenGajiController extends Controller
     public function __construct()
     {
         $this->middleware('check.auth');
-        $this->middleware('check.admin')->only(['create', 'store', 'edit', 'update', 'destroy']);
+        $this->middleware('check.admin'); // Only Admin can access all komponen-gaji routes
     }
 
     /**
@@ -18,6 +18,11 @@ class KomponenGajiController extends Controller
      */
     public function index(Request $request)
     {
+        if (session('user_role') !== 'Admin') {
+            return redirect()->route('anggota.index')
+                ->with('error', 'Access denied. Only administrators can access salary components.');
+        }
+
         $search = $request->get('search');
         $userRole = session('user_role', 'Public');
 
@@ -73,6 +78,11 @@ class KomponenGajiController extends Controller
      */
     public function show(KomponenGaji $komponenGaji)
     {
+        if (session('user_role') !== 'Admin') {
+            return redirect()->route('anggota.index')
+                ->with('error', 'Access denied. Only administrators can access salary components.');
+        }
+
         $userRole = session('user_role', 'Public');
 
         return view('komponen-gaji.show', compact('komponenGaji', 'userRole'));

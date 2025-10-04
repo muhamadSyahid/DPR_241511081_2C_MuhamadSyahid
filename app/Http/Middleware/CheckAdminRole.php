@@ -15,13 +15,10 @@ class CheckAdminRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $method = $request->route()->getActionMethod();
-
-        if (in_array($method, ['create', 'store', 'edit', 'update', 'destroy'])) {
-            if (session('user_role') !== 'Admin') {
-                return redirect()->route('anggota.index')
-                    ->with('error', 'Access denied. Admin privileges required for this action.');
-            }
+        // Check if user is Admin for all actions
+        if (session('user_role') !== 'Admin') {
+            return redirect()->route('anggota.index')
+                ->with('error', 'Access denied. Admin privileges required to access this section.');
         }
 
         return $next($request);
