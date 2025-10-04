@@ -115,4 +115,45 @@ class PenggajianController extends Controller
             ->with('success', 'Data penggajian berhasil ditambahkan.');
     }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show($idAnggota)
+    {
+        $anggota = Anggota::findOrFail($idAnggota);
+        $salaryComponents = Penggajian::getAnggotaSalaryComponents($idAnggota);
+        $takeHomePay = Penggajian::calculateTakeHomePay($idAnggota);
+        $formattedTakeHomePay = Penggajian::getFormattedTakeHomePay($idAnggota);
+        
+        // Get breakdown by category
+        $componentsByCategory = $salaryComponents->groupBy('komponenGaji.kategori');
+        
+        // Calculate conditional allowances
+        $conditionalAllowances = [];
+        if ($anggota->status_pernikahan === 'Kawin') {
+            $spouseAllowance = KomponenGaji::where('nama_komponen', 'like', '%Istri/Suami%')
+                                          ->where(function($query) use ($anggota) {
+                                              $query->where('jabatan', $anggota->jabatan)
+                                                    ->orWhere('jabatan', 'Semua');
+                                          })
+                                          ->first();
+            if ($spouseAllowance) {
+                $conditionalAllowances['spouse'] = [
+                    'name' => $spouseAllowance->nama_komponen,
+                    'amount' => $spouseAllowance->nominal,
+                    'formatted' => 'Rp ' . number_format($spouseAllowance->nominal, 0, ',', '.')
+                ];
+            }
+        }
+
+        return view('penggajian.show', compact(
+            'anggota', 
+            'salaryComponents', 
+            'takeHomePay', 
+            'formattedTakeHomePay',
+            'componentsByCategory',
+            'conditionalAllowances'
+        ));
+    }
+
 }
