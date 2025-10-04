@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Anggota DPR - Data Anggota</title>
+    <title>Komponen Gaji - Data Komponen Gaji</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -40,7 +40,7 @@
             background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
             transform: translateY(-1px);
         }
-        
+
         .input-group-text {
             border: 2px solid #667eea;
             border-right: none;
@@ -54,13 +54,6 @@
         .form-control:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        }
-        
-        .search-highlight {
-            background-color: yellow;
-            font-weight: bold;
-            padding: 1px 3px;
-            border-radius: 3px;
         }
 
         .badge-sm {
@@ -106,12 +99,13 @@
     <div class="container mt-4">
         <div class="main-container">
             <div class="header-section text-center">
-                <i class="fas fa-users fa-2x mb-2"></i>
-                <h1 class="h2 fw-bold mb-0">Anggota DPR</h1>
-                <p class="mb-0 opacity-75 small">Sistem Manajemen Data Anggota Dewan Perwakilan Rakyat</p>
+                <i class="fas fa-money-bill-wave fa-2x mb-2"></i>
+                <h1 class="h2 fw-bold mb-0">Komponen Gaji</h1>
+                <p class="mb-0 opacity-75 small">Sistem Manajemen Data Komponen Gaji DPR</p>
             </div>
 
             <div class="p-3">
+                <!-- Success Message -->
                 @if (session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
@@ -119,6 +113,7 @@
                     </div>
                 @endif
 
+                <!-- Error Message -->
                 @if (session('error'))
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
@@ -126,26 +121,26 @@
                     </div>
                 @endif
 
+                <!-- Action Buttons -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
-                        <h4 class="mb-1">Data Anggota</h4>
+                        <h4 class="mb-1">Data Komponen Gaji</h4>
                         <small class="text-muted">
                             <i class="fas fa-user-tag me-1"></i>
                             Logged in as: <strong>{{ session('user_name') }}</strong>
-                            <span
-                                class="badge bg-{{ $userRole == 'Admin' ? 'success' : 'secondary' }} badge-sm">{{ $userRole }}</span>
+                            <span class="badge bg-{{ $userRole == 'Admin' ? 'success' : 'secondary' }} badge-sm">{{ $userRole }}</span>
                         </small>
                     </div>
 
                     <div class="d-flex gap-1">
                         @if ($userRole == 'Admin')
-                            <a href="{{ route('anggota.create') }}" class="btn btn-primary btn-sm">
+                            <a href="{{ route('komponen-gaji.create') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus me-1"></i>Tambah
                             </a>
                         @endif
                         
-                        <a href="{{ route('komponen-gaji.index') }}" class="btn btn-outline-success btn-sm">
-                            <i class="fas fa-money-bill-wave me-1"></i>Gaji
+                        <a href="{{ route('anggota.index') }}" class="btn btn-outline-info btn-sm">
+                            <i class="fas fa-users me-1"></i>Anggota
                         </a>
 
                         <a href="{{ route('logout') }}" class="btn btn-outline-danger btn-sm">
@@ -157,7 +152,7 @@
                 <!-- Search Form -->
                 <div class="row mb-3">
                     <div class="col-md-8">
-                        <form method="GET" action="{{ route('anggota.index') }}" class="d-flex">
+                        <form method="GET" action="{{ route('komponen-gaji.index') }}" class="d-flex">
                             <div class="input-group input-group-sm">
                                 <span class="input-group-text bg-primary text-white">
                                     <i class="fas fa-search"></i>
@@ -166,13 +161,13 @@
                                        class="form-control form-control-sm" 
                                        name="search" 
                                        value="{{ $search ?? '' }}" 
-                                       placeholder="Cari nama, gelar, jabatan, atau status..."
+                                       placeholder="Cari nama komponen, kategori, jabatan..."
                                        style="border-radius: 0 5px 5px 0;">
                                 <button type="submit" class="btn btn-primary btn-sm ms-1" style="border-radius: 5px;">
                                     <i class="fas fa-search me-1"></i>Cari
                                 </button>
                                 @if($search)
-                                    <a href="{{ route('anggota.index') }}" class="btn btn-outline-secondary btn-sm ms-1" style="border-radius: 5px;">
+                                    <a href="{{ route('komponen-gaji.index') }}" class="btn btn-outline-secondary btn-sm ms-1" style="border-radius: 5px;">
                                         <i class="fas fa-times"></i>
                                     </a>
                                 @endif
@@ -185,57 +180,62 @@
                                 <small>
                                     <i class="fas fa-info-circle me-1"></i>
                                     Pencarian: <strong>"{{ $search }}"</strong>
-                                    <span class="badge bg-info badge-sm ms-1">{{ $anggota->total() }}</span>
+                                    <span class="badge bg-info badge-sm ms-1">{{ $komponenGaji->total() }}</span>
                                 </small>
                             </div>
                         </div>
                     @endif
                 </div>
 
-                @if ($anggota->count() > 0)
+                <!-- Table -->
+                @if ($komponenGaji->count() > 0)
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-sm">
                             <thead class="table-dark">
                                 <tr>
-                                    <th style="width: 8%">ID</th>
-                                    <th style="width: 30%">Nama Lengkap</th>
-                                    <th style="width: 20%">Jabatan</th>
-                                    <th style="width: 20%">Status Pernikahan</th>
+                                    <th style="width: 5%">ID</th>
+                                    <th style="width: 25%">Nama Komponen</th>
+                                    <th style="width: 15%">Kategori</th>
+                                    <th style="width: 15%">Jabatan</th>
+                                    <th style="width: 15%">Nominal</th>
+                                    <th style="width: 10%">Satuan</th>
                                     @if ($userRole == 'Admin')
-                                        <th class="text-center" style="width: 22%">Aksi</th>
+                                        <th class="text-center" style="width: 15%">Aksi</th>
                                     @else
-                                        <th class="text-center" style="width: 22%">Detail</th>
+                                        <th class="text-center" style="width: 15%">Detail</th>
                                     @endif
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($anggota as $index => $item)
+                                @foreach ($komponenGaji as $index => $item)
                                     <tr>
-                                        <td>{{ $item->id_anggota }}</td>
-                                        <td>{{ $item->full_name }}</td>
+                                        <td>{{ $item->id_komponen_gaji }}</td>
+                                        <td>{{ $item->nama_komponen }}</td>
                                         <td>
-                                            <span class="badge bg-info badge-sm">
-                                                {{ \App\Models\Anggota::getJabatanOptions()[$item->jabatan] ?? $item->jabatan }}
-                                            </span>
+                                            <span class="badge bg-info badge-sm">{{ $item->kategori }}</span>
                                         </td>
                                         <td>
-                                            <span class="badge bg-secondary badge-sm">
-                                                {{ \App\Models\Anggota::getStatusPernikahanOptions()[$item->status_pernikahan] ?? $item->status_pernikahan }}
-                                            </span>
+                                            <span class="badge bg-secondary badge-sm">{{ $item->jabatan }}</span>
+                                        </td>
+                                        <td>
+                                            <small class="text-success fw-bold">{{ $item->formatted_nominal }}</small>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-warning text-dark badge-sm">{{ $item->satuan }}</span>
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group btn-group-sm" role="group">
-                                                <a href="{{ route('anggota.show', $item->id_anggota) }}"
+                                                <a href="{{ route('komponen-gaji.show', $item->id_komponen_gaji) }}"
                                                     class="btn btn-info btn-sm" title="Detail">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
 
                                                 @if ($userRole == 'Admin')
-                                                    <a href="{{ route('anggota.edit', $item->id_anggota) }}"
+                                                    <a href="{{ route('komponen-gaji.edit', $item->id_komponen_gaji) }}"
                                                         class="btn btn-warning btn-sm" title="Edit">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
-                                                    <form action="{{ route('anggota.destroy', $item->id_anggota) }}"
+                                                    <form action="{{ route('komponen-gaji.destroy', $item->id_komponen_gaji) }}"
                                                         method="POST" style="display: inline;"
                                                         onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                                         @csrf
@@ -257,7 +257,7 @@
                     <!-- Pagination -->
                     <div class="d-flex justify-content-center mt-3">
                         <nav aria-label="Page navigation">
-                            {{ $anggota->links('pagination::bootstrap-4', ['class' => 'pagination-sm']) }}
+                            {{ $komponenGaji->links('pagination::bootstrap-4', ['class' => 'pagination-sm']) }}
                         </nav>
                     </div>
                 @else
@@ -266,13 +266,13 @@
                             <i class="fas fa-search fa-3x text-muted mb-2"></i>
                             <h5 class="text-muted">Tidak ada hasil pencarian</h5>
                             <p class="text-muted small">
-                                Tidak ditemukan anggota untuk: <strong>"{{ $search }}"</strong>
+                                Tidak ditemukan komponen gaji untuk: <strong>"{{ $search }}"</strong>
                             </p>
-                            <a href="{{ route('anggota.index') }}" class="btn btn-outline-primary btn-sm">
+                            <a href="{{ route('komponen-gaji.index') }}" class="btn btn-outline-primary btn-sm">
                                 <i class="fas fa-arrow-left me-1"></i>Kembali
                             </a>
                         @else
-                            <i class="fas fa-users fa-3x text-muted mb-2"></i>
+                            <i class="fas fa-money-bill-wave fa-3x text-muted mb-2"></i>
                             <h5 class="text-muted">Belum ada data</h5>
                             <p class="text-muted small">Klik "Tambah" untuk menambahkan data pertama</p>
                         @endif

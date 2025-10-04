@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KomponenGajiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,5 +18,9 @@ Route::middleware(['web'])->group(function () {
 
     Route::resource('anggota', AnggotaController::class)->parameters([
         'anggota' => 'anggota',
+    ]);
+
+    Route::resource('komponen-gaji', KomponenGajiController::class)->parameters([
+        'komponen-gaji' => 'komponen_gaji',
     ]);
 });

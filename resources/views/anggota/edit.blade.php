@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Anggota DPR - Tambah Anggota</title>
+    <title>Anggota DPR - Edit Anggota</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -69,14 +69,15 @@
     <div class="container mt-4">
         <div class="main-container">
             <div class="header-section text-center">
-                <i class="fas fa-user-plus fa-2x mb-2"></i>
-                <h1 class="h2 fw-bold mb-0">Tambah Anggota DPR</h1>
-                <p class="mb-0 opacity-75 small">Formulir penambahan data anggota baru</p>
+                <i class="fas fa-user-edit fa-2x mb-2"></i>
+                <h1 class="h2 fw-bold mb-0">Edit Anggota DPR</h1>
+                <p class="mb-0 opacity-75 small">Formulir perubahan data anggota</p>
             </div>
 
             <div class="p-3">
-                <form action="{{ route('anggota.store') }}" method="POST">
+                <form action="{{ route('anggota.update', $anggota->id_anggota) }}" method="POST">
                     @csrf
+                    @method('PUT')
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -84,7 +85,7 @@
                                 <i class="fas fa-user me-2"></i>Nama Depan <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control @error('nama_depan') is-invalid @enderror"
-                                id="nama_depan" name="nama_depan" value="{{ old('nama_depan') }}"
+                                id="nama_depan" name="nama_depan" value="{{ old('nama_depan', $anggota->nama_depan) }}"
                                 placeholder="Masukkan nama depan" required>
                             @error('nama_depan')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -96,7 +97,8 @@
                                 <i class="fas fa-user me-2"></i>Nama Belakang <span class="text-danger">*</span>
                             </label>
                             <input type="text" class="form-control @error('nama_belakang') is-invalid @enderror"
-                                id="nama_belakang" name="nama_belakang" value="{{ old('nama_belakang') }}"
+                                id="nama_belakang" name="nama_belakang"
+                                value="{{ old('nama_belakang', $anggota->nama_belakang) }}"
                                 placeholder="Masukkan nama belakang" required>
                             @error('nama_belakang')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -110,7 +112,8 @@
                                 <i class="fas fa-graduation-cap me-2"></i>Gelar Depan
                             </label>
                             <input type="text" class="form-control @error('gelar_depan') is-invalid @enderror"
-                                id="gelar_depan" name="gelar_depan" value="{{ old('gelar_depan') }}"
+                                id="gelar_depan" name="gelar_depan"
+                                value="{{ old('gelar_depan', $anggota->gelar_depan) }}"
                                 placeholder="Contoh: Dr., Prof.">
                             @error('gelar_depan')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -122,7 +125,8 @@
                                 <i class="fas fa-graduation-cap me-2"></i>Gelar Belakang
                             </label>
                             <input type="text" class="form-control @error('gelar_belakang') is-invalid @enderror"
-                                id="gelar_belakang" name="gelar_belakang" value="{{ old('gelar_belakang') }}"
+                                id="gelar_belakang" name="gelar_belakang"
+                                value="{{ old('gelar_belakang', $anggota->gelar_belakang) }}"
                                 placeholder="Contoh: S.H., M.Si.">
                             @error('gelar_belakang')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -139,7 +143,8 @@
                                 name="jabatan" required>
                                 <option value="">Pilih Jabatan</option>
                                 @foreach ($jabatanOptions as $key => $value)
-                                    <option value="{{ $key }}" {{ old('jabatan') == $key ? 'selected' : '' }}>
+                                    <option value="{{ $key }}"
+                                        {{ old('jabatan', $anggota->jabatan) == $key ? 'selected' : '' }}>
                                         {{ $value }}
                                     </option>
                                 @endforeach
@@ -158,7 +163,7 @@
                                 <option value="">Pilih Status Pernikahan</option>
                                 @foreach ($statusPernikahanOptions as $key => $value)
                                     <option value="{{ $key }}"
-                                        {{ old('status_pernikahan') == $key ? 'selected' : '' }}>
+                                        {{ old('status_pernikahan', $anggota->status_pernikahan) == $key ? 'selected' : '' }}>
                                         {{ $value }}
                                     </option>
                                 @endforeach
@@ -174,7 +179,7 @@
                             <i class="fas fa-arrow-left me-1"></i>Kembali
                         </a>
                         <button type="submit" class="btn btn-primary btn-sm">
-                            <i class="fas fa-save me-1"></i>Simpan Data
+                            <i class="fas fa-save me-1"></i>Update Data
                         </button>
                     </div>
                 </form>
