@@ -11,7 +11,7 @@ class AuthController extends Controller
     public function login()
     {
         if (session('is_authenticated')) {
-            return redirect('/berhasil');
+            return redirect()->route('anggota.index');
         }
 
         return view('auth.login');
@@ -34,9 +34,10 @@ class AuthController extends Controller
             $request->session()->put('user_id', $pengguna->id_pengguna);
             $request->session()->put('user_email', $pengguna->email);
             $request->session()->put('user_name', $pengguna->nama_depan);
+            $request->session()->put('user_role', $pengguna->role);
             $request->session()->put('is_authenticated', true);
 
-            return view('berhasil', ['nama' => $pengguna->nama_depan]);
+            return redirect()->route('anggota.index')->with('success', 'Login berhasil! Selamat datang, ' . $pengguna->nama_depan);
         } else {
             return redirect()->back()->withErrors([
                 'email' => 'Akun yang diberikan tidak sesuai.',

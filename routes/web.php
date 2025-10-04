@@ -14,4 +14,8 @@ Route::post('/login', [AuthController::class, 'auth'])->name('auth');
 Route::middleware(['web'])->group(function () {
     Route::get('/berhasil', [AuthController::class, 'berhasil'])->name('berhasil');
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    Route::resource('anggota', AnggotaController::class)->parameters([
+        'anggota' => 'anggota',
+    ]);
 });
