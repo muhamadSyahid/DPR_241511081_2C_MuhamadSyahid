@@ -154,7 +154,7 @@
                         <table class="table table-striped table-hover">
                             <thead class="table-dark">
                                 <tr>
-                                    <th>No</th>
+                                    <th>ID</th>
                                     <th>Nama Lengkap</th>
                                     <th>Jabatan</th>
                                     <th>Status Pernikahan</th>
@@ -168,7 +168,7 @@
                             <tbody>
                                 @foreach ($anggota as $index => $item)
                                     <tr>
-                                        <td>{{ $anggota->firstItem() + $index }}</td>
+                                        <td>{{ $item->id_anggota }}</td>
                                         <td>
                                             <strong>{{ $item->full_name }}</strong>
                                         </td>

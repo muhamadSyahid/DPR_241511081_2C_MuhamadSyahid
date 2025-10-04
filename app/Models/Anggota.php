@@ -13,6 +13,7 @@ class Anggota extends Model
     protected $primaryKey = 'id_anggota';
     public $incrementing = true;
     protected $keyType = 'int';
+    public $timestamps = false;
 
     protected $fillable = [
         'nama_depan',
