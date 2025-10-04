@@ -65,7 +65,8 @@ class KomponenGajiController extends Controller
             'kategori' => 'required|in:Gaji Pokok,Tunjangan Melekat,Tunjangan Lain',
             'jabatan' => 'required|in:Ketua,Wakil Ketua,Anggota,Semua',
             'nominal' => 'required|numeric|min:0',
-            'satuan' => 'required|in:Bulan,Hari,Periode'
+            'satuan' => 'required|in:Bulan,Hari,Periode',
+            'deskripsi' => 'nullable|string|max:255'
         ]);
 
         KomponenGaji::create($validatedData);
@@ -86,5 +87,70 @@ class KomponenGajiController extends Controller
         $userRole = session('user_role', 'Public');
 
         return view('komponen-gaji.show', compact('komponenGaji', 'userRole'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(KomponenGaji $komponenGaji)
+    {
+        if (session('user_role') !== 'Admin') {
+            return redirect()->route('anggota.index')
+                ->with('error', 'Access denied. Only administrators can access salary components.');
+        }
+
+        $kategoriOptions = KomponenGaji::getKategoriOptions();
+        $jabatanOptions = KomponenGaji::getJabatanKomponenOptions();
+        $satuanOptions = KomponenGaji::getSatuanOptions();
+
+        return view('komponen-gaji.edit', compact('komponenGaji', 'kategoriOptions', 'jabatanOptions', 'satuanOptions'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, KomponenGaji $komponenGaji)
+    {
+        if (session('user_role') !== 'Admin') {
+            return redirect()->route('anggota.index')
+                ->with('error', 'Access denied. Only administrators can access salary components.');
+        }
+
+        $validatedData = $request->validate([
+            'nama_komponen' => 'required|string|max:100',
+            'kategori' => 'required|in:Gaji Pokok,Tunjangan Melekat,Tunjangan Lain',
+            'jabatan' => 'required|in:Ketua,Wakil Ketua,Anggota,Semua',
+            'nominal' => 'required|numeric|min:0',
+            'satuan' => 'required|in:Bulan,Hari,Periode',
+            'deskripsi' => 'nullable|string|max:255'
+        ]);
+
+        $komponenGaji->update($validatedData);
+
+        return redirect()->route('komponen-gaji.index')->with('success', 'Data komponen gaji berhasil diperbarui.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(KomponenGaji $komponenGaji)
+    {
+        if (session('user_role') !== 'Admin') {
+            return redirect()->route('anggota.index')
+                ->with('error', 'Access denied. Only administrators can access salary components.');
+        }
+
+        // Check if this component is being used in penggajian
+        $penggunaan = $komponenGaji->penggajian()->count();
+        
+        if ($penggunaan > 0) {
+            return redirect()->route('komponen-gaji.index')
+                ->with('error', "Komponen gaji '{$komponenGaji->nama_komponen}' tidak dapat dihapus karena sedang digunakan dalam {$penggunaan} data penggajian.");
+        }
+
+        $namaKomponen = $komponenGaji->nama_komponen;
+        $komponenGaji->delete();
+
+        return redirect()->route('komponen-gaji.index')->with('success', "Komponen gaji '{$namaKomponen}' berhasil dihapus.");
     }
 }

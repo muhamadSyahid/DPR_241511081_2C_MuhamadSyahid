@@ -64,4 +64,9 @@ class Anggota extends Model
             'Cerai Mati' => 'Cerai Mati'
         ];
     }
+
+    public function penggajian()
+    {
+        return $this->hasMany(Penggajian::class, 'id_komponen_gaji', 'id_komponen_gaji');
+    }
 }

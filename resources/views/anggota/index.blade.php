@@ -98,14 +98,7 @@
         /* Make previous/next arrows smaller */
         .pagination .page-link i {
             font-size: 0.7rem;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container mt-4">
-        <div class="main-container">
-            <div class="header-section">
+        }            <div class="header-section">
                 <div class="text-center mb-3">
                     <i class="fas fa-users fa-2x mb-2"></i>
                     <h1 class="h2 fw-bold mb-0">Anggota DPR</h1>
@@ -166,6 +159,12 @@
                             </a>
                             
                             <a href="{{ route('komponen-gaji.index') }}" class="btn btn-outline-success btn-sm">
+                                <i class="fas fa-money-bill-wave me-1"></i>Gaji
+                            </a>
+                        @endif
+"></i>Gaji
+                        </a>
+tline-success btn-sm">
                                 <i class="fas fa-money-bill-wave me-1"></i>Gaji
                             </a>
                         @endif
