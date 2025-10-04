@@ -38,4 +38,43 @@ class KomponenGajiController extends Controller
         return view('komponen-gaji.index', compact('komponenGaji', 'userRole', 'search'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $kategoriOptions = KomponenGaji::getKategoriOptions();
+        $jabatanOptions = KomponenGaji::getJabatanKomponenOptions();
+        $satuanOptions = KomponenGaji::getSatuanOptions();
+
+        return view('komponen-gaji.create', compact('kategoriOptions', 'jabatanOptions', 'satuanOptions'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'nama_komponen' => 'required|string|max:100',
+            'kategori' => 'required|in:Gaji Pokok,Tunjangan Melekat,Tunjangan Lain',
+            'jabatan' => 'required|in:Ketua,Wakil Ketua,Anggota,Semua',
+            'nominal' => 'required|numeric|min:0',
+            'satuan' => 'required|in:Bulan,Hari,Periode'
+        ]);
+
+        KomponenGaji::create($validatedData);
+
+        return redirect()->route('komponen-gaji.index')->with('success', 'Data komponen gaji berhasil ditambahkan.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(KomponenGaji $komponenGaji)
+    {
+        $userRole = session('user_role', 'Public');
+
+        return view('komponen-gaji.show', compact('komponenGaji', 'userRole'));
+    }
 }
